@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"net/http"
 
-	"upload/cfg"
-	"upload/handler"
+	"github.com/luoruofeng/go-upload/cfg"
+	"github.com/luoruofeng/go-upload/handler"
 )
 
 func main() {

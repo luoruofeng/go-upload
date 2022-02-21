@@ -8,8 +8,8 @@ import (
 	"os"
 	"time"
 
-	meta "upload/meta"
-	util "upload/util"
+	meta "github.com/luoruofeng/go-upload/meta"
+	util "github.com/luoruofeng/go-upload/util"
 )
 
 func Upload(w http.ResponseWriter, r *http.Request) {
