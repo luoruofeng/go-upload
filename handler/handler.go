@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 	"io/ioutil"
@@ -12,7 +13,7 @@ import (
 	util "github.com/luoruofeng/go-upload/util"
 )
 
-func Upload(w http.ResponseWriter, r *http.Request) {
+func UploadHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method == http.MethodPost {
 		fd, fh, err := r.FormFile("file")
 		if err != nil {
@@ -63,5 +64,28 @@ func Upload(w http.ResponseWriter, r *http.Request) {
 			io.WriteString(w, err.Error())
 		}
 		io.WriteString(w, string(c))
+	}
+}
+
+func SuccessHandler(w http.ResponseWriter, r *http.Request) {
+	io.WriteString(w, "Upload Success!!")
+}
+
+// sha1sum /tmp/filename
+// 127.0.0.1:8080/file/meta?filehash=xxxx
+func GetFileMetaHandler(w http.ResponseWriter, r *http.Request) {
+	r.ParseForm()
+	filehash := r.Form.Get("filehash")
+	// filehash := r.Form["filehash"][0]
+	fmeta := meta.GetFileMeta(filehash)
+	if fmeta != (meta.FileMeta{}) {
+		data, err := json.Marshal(fmeta)
+		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			return
+		}
+		w.Write(data)
+	} else {
+		w.Write([]byte(`{"code":-1,"msg":"no such file!"}`))
 	}
 }
