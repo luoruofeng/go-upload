@@ -47,7 +47,8 @@ func UploadHandler(w http.ResponseWriter, r *http.Request) {
 		fileMeta.FileSha1 = fileSha1
 		des.Seek(0, 0)
 
-		meta.Update(fileMeta)
+		// meta.UpdateFile(fileMeta)
+		_ = meta.UpdateFileMetaDB(fileMeta)
 
 		fmt.Printf("save %d size\n", r)
 		w.Write([]byte("save sucess!"))
